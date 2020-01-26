@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys,os
 ####################### Default Config #############################
-path                = "/opt/lampp/htdocs/siaga/test/"              #
+path                = "YOUR_PATH"                                  #
 controller          = "controller"                                 #
 views               = "views"                                      #
 args                = sys.argv                                     #
