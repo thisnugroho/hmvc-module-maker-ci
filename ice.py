@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 import sys,os
 ####################### Default Config #############################
-path                = "YOUR_PATH"                                  #
-controller          = "controller"                                 #
+path                = "C:\wamp64\www\crudCI\\"                     #
+controller          = "controllers"                                #
 views               = "views"                                      #
 args                = sys.argv                                     #
 separator           = "/" if sys.platform == 'linux' else "\\"     #
-name                = args[2]                                      #
-command             = args[1]                                      #
-capitalize          = lambda s: s[:1].lower() + s[1:] if s else '' #
-controller_name     = capitalize(name)                             #
+try:                                                               #
+    name                = args[2]                                  #
+    command             = args[1]                                  #
+except IndexError:                                                 #
+    print("wrong command,pleas use py ice.py -cm (name)")          #
+    sys.exit(0)                                                    #
+controller_name     = name.title()                                 #
 ####################################################################
 controller_content = """<?php
-defined('BASEPATH') or exit('No Direct Script Access Allowed');
+defined('BASEPATH') or exit('No Direct Script Access Allowedi');
 
 class {0} extends MX_Controller {{
     public function __construct() {{
@@ -23,13 +26,12 @@ class {0} extends MX_Controller {{
     }}
 }}
 """.format(name)
-
 if command == "-cm":
     try:
         # Start module
         print("creating module...\n")
         os.mkdir(path+name.lower())
-        print("created\n\n")
+        print("Module Created\n")
         # End module
 
         # Start controller
@@ -38,6 +40,7 @@ if command == "-cm":
         f=open(path+name.lower() + separator + controller + separator + controller_name + ".php", "w+")
         f.write(controller_content)
         f.close()
+        print("Controller Created\n")
         # Controller end
 
         # Start Views
@@ -46,6 +49,10 @@ if command == "-cm":
         f=open(path+name.lower() + separator + views + separator + "V_"+ name.lower() + ".php", "w+")
         f.write("<?php")
         f.close()
+        print("Views Created")
 
     except FileExistsError:
         print(name+  " is already exists")
+else:
+    print("that command doesnt exists")
+
