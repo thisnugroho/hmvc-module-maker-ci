@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Test joni
+# This written by brackets
 
 import sys,os
 ####################### Default Config #############################
