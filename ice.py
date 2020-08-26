@@ -1,32 +1,51 @@
 #!/usr/bin/env python3
 
 import sys,os
-####################### Default Config #############################
-path                = "C:\wamp64\www\crudCI\\"                     #
-controller          = "controllers"                                #
-views               = "views"                                      #
-args                = sys.argv                                     #
-separator           = "/" if sys.platform == 'linux' else "\\"     #
-try:                                                               #
-    name                = args[2]                                  #
-    command             = args[1]                                  #
-except IndexError:                                                 #
-    print("wrong command,pleas use py ice.py -cm (name)")          #
-    sys.exit(0)                                                    #
-controller_name     = name.title()                                 #
-####################################################################
-controller_content = """<?php
-defined('BASEPATH') or exit('No Direct Script Access Allowedi');
 
+separator        = "/" if sys.platform == 'linux' else "\\"     
+back_path        = os.path.dirname(os.path.realpath(__file__)) + separator + 'admin' + separator + 'application' + separator +'modules'+ separator
+front_path       = os.path.dirname(os.path.realpath(__file__)) + separator + 'application' + separator + 'modules' + separator
+controller       = "controllers"                                
+views            = "views"                                      
+args             = sys.argv                                     
+
+try:                                                               
+    command             = args[1]
+    name                = args[2]                                  
+    tipe                = args[3]                                  
+except IndexError:                                                 
+    print("wrong command,please use py ice.py -cm (name)")          
+    sys.exit(0)                                                    
+
+controller_name     = name[0].upper() + name[1:]                                 
+controller_content = """<?php
+defined('BASEPATH') or exit('No Direct Script Access Allowed');
 class {0} extends MX_Controller {{
+
     public function __construct() {{
         parent::__construct();
+
     }}
     public function index() {{
 
     }}
+
+    public function save() {{
+
+    }}
+
+    public function delete() {{
+        
+    }}
 }}
-""".format(name)
+""".format(name[0].upper() + name[1:])
+
+if tipe == 'back':
+    path = back_path
+else:
+    path = front_path
+
+
 if command == "-cm":
     try:
         # Start module
@@ -47,8 +66,7 @@ if command == "-cm":
         # Start Views
         print("creating views...\n")
         os.mkdir(path+name.lower() + separator + views)
-        f=open(path+name.lower() + separator + views + separator + "V_"+ name.lower() + ".php", "w+")
-        f.write("<?php")
+        f=open(path+name.lower() + separator + views + separator + "V_index" + ".php", "w+")
         f.close()
         print("Views Created")
 
@@ -56,4 +74,3 @@ if command == "-cm":
         print(name+  " is already exists")
 else:
     print("that command doesnt exists")
-
